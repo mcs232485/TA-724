@@ -1,0 +1,34 @@
+
+
+
+Answer script: 
+
+1. 
+
+When the queue size is short, TCP must reduce its congestion window by half each time the time limit is hit, allowing for faster transmission of webpage fetch requests. And TCP will continue to double the congestion window and transmit more and more packets, increasing the fetch time when queue size is huge.
+
+
+2.
+ 
+given speed = 100Mb/s 
+Tx = L/B 
+lets assume size of packet = 32bytes
+delay = 0.3125 sec
+
+
+
+
+3. RTT is directly proportional to queue size. RTT is delay times queue size.
+
+
+
+4.Few ways to mitigate the bufferbloat problem.
+	a. Use RED or PI Enhanced schemes.
+	b. limit the buffersize so that it could reduce RTT.
+
+
+
+5. System performance may lead difference in result every time we run the script.
+
+
+

@@ -1,0 +1,38 @@
+
+Name: Ranjul Bandyopadhyay
+Entry No.: 2023JCS2541
+
+Q-20
+Mean of download time: 0.270800
+Standard deviation of download time: 0.069098
+
+Q-100
+Mean of download time: 1.008000
+Standard deviation of download time: 0.224190
+
+1. We see a difference in webpage fetch times with short and large router buffers due to buferbloat happening here. 
+This can be seen as in q100 the mean delay is almost 3 times that in q20. In TCP we use a sliding window mechanism where 
+the number of unacknowledged packets that can be in-flight is equal to its window size. In the case of a large buffer size, the 
+TCP keeps increasing its window size until the buffer is filled. Due to this TCP is unaware of the dropped packets and it 
+keeps sending at high rates. Also since the buffer size is large, it takes more time to empty it. In contrast, for small
+buffer sizes, the TCP congestion avoidance is achieved more quickly due to the small buffer size so TCP keeps sending packets
+at a more manageable rate.
+
+2. txqueuelen=1000 and MTU=1500.
+Latency = (1000 packets x 1500 bytes x 8 bits)/(100Mbps) = 0.12s 
+The maximum time a packet might wait in the queue is 0.12s at worst
+
+3. RTT reported by ping increases as queue size increases. This is because more packets are present in the queue, causing the 
+packets to have a longer queue delay. A longer queue delay (due to a larger queue size) leads to a longer RTT because the packet spends 
+more time waiting in the queue before being transmitted.
+In general,
+RTT = Propagation Delay + Queue Delay + Transmission Delay, thus RTT is directly proportional to Queue Delay assuming Propagation and Transmission Delay
+to be constant
+
+4. Two ways to mitigate the bufferbloat problem:
+i) Reduce the queue size. This can be clearly seen as in q20 we get better response time than q100.
+ii) We can use Random Early Detection (RED). It monitors the length of the queue and selectively drops or marks packets before the queue becomes completely full. 
+This signals to the sender that congestion is starting to occur, prompting it to reduce its sending rate. 
+
+5. When you re-run the emulation we see changes due to various factors. One of the reasons can be that due to different traffic patterns, the network congestion varies.
+There also may be noise due to which we see changes. The timing of packet arrivals and departures can also introduce a level of randomness to the emulation.

@@ -1,0 +1,23 @@
+1. The average fetch time with a 100 packet buffer was seen to be 0.65 seconds.
+   With a 20 packet buffer this was 0.25 seconds. The difference is becasue of
+   the difference in queue length when the bandwidth is constant and is being
+   used to the full potential.
+
+2. The maximum transit queue length on the network interface of the VM is
+   reported to be 1000 by ifconfig. If the queue drains at 100Mb/s, assuming
+   maximum frame size to be 150kB, the maximum time a packet might wait in the
+   queue is 1000 * 150kB / 100Mb/s = 1.5s.
+
+3. RTT reported by ping increases with increase in queue size. Its relation with
+   the queue size is linear.
+
+4. The bufferbloat problem for large buffers can be mitigated by starting to
+   randomly drop packets early without waiting for the buffer to fill (the rate
+   of dropping increasing with increase in buffer occupancy). Another way is to
+   send the information about congestion through explicit messages.
+
+5. On reducing the buffer size from 100 to 20, average queue length, RTT and
+   fetch time all decrease by almost half. This happens because due to less
+   buffer, queue length is also less and endpoints are notified about their
+   non-optimal cwnd well in time before things start getting worse. Decreased
+   queue length automatically results in decreased RTT and fetch times.

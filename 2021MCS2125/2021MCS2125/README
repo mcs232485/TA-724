@@ -1,0 +1,121 @@
+##############################################################
+##############################################################
+#          Student Name:  AVISHEK MUKHOPADHYAY               #
+#          Entry Number: 2021MCS2125                         #
+#          Subject: COL724                                   #
+#          Assignment:1                                      #
+##############################################################
+##############################################################
+
+###################################################################################################
+Question1: Why do you see a difference in webpage fetch times with short and large router buffers?#
+###################################################################################################
+
+Answer: In my assignment, the webserver is running at h1. And my end  host is h2. So the wepage is 
+coming in for of packets. Now when the packet goes through the router, it is sotoredin a queue. 
+The packet can only get transmitted only when the previous packet is gone from the queue. 
+Now if we have bigges buffersize the we have bigger queue and hence the packet will take more time
+to transmit. Hence the page ownload time is higher for 100 packet buffer than a 20 packet buffer.
+
+For 100 packet buffer the average page download time is 1.151517 second
+For 20 packet buffer the average page download time is 0.595300 second
+
+###################################################################################################
+Question2:  Bufferbloat can occur in other places such as your network interface card (NIC).      #
+Check the output of ifconfig eth0 on your VirtualBox VM. What is the                              #
+(maximum) transmit queue length on the network interface reported by  ifconfig? For               #
+this queue size, if you assume the queue drains at 100Mb/s, what is the maximum                   #
+time a packet might wait in the queue before it leaves the NIC?                                   #
+###################################################################################################
+
+Answer: 
+ifconfig eth0 shows following output.
+eth0      Link encap:Ethernet  HWaddr 08:00:27:61:5d:3f  
+          inet addr:192.168.43.44  Bcast:192.168.43.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:23895 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:54224 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1740531 (1.7 MB)  TX bytes:53915134 (53.9 MB)
+
+So the txqueuelen=1000
+and MTU=1500
+So at 100Mb/sec at the maximum time a packet might wait will be the time equal to transmit full
+length of the queue i.e. it might be the packet at the end of the queue.
+Also at worstcase let assume all packet size are of MTU.
+Hence total time= (txqueuelen * MTU * 8)/speed
+                = ((1000 Packet) * (1500 Byte/Packet) * (8 Bit/Byte))/(100000000 Bit/Sec)
+                = 0.12 Seconds
+ So packet might wait maximum 0.12 Second 
+
+            
+###################################################################################################
+Question3: How does the RTT reported by ping vary with the queue size? Describe the relation      #
+between the two.                                                                                  #
+###################################################################################################
+
+Answer: If the queue size increases then RTT increases and if the queue size decreases then RTT
+decreases. Hence the queue size is proprotional to RTT.
+i.e. RTT= Propagation Delay * Queue Size
+            
+
+
+###################################################################################################
+Question4: Identify and describe two ways to mitigate the bufferbloat problem.                    #
+###################################################################################################
+
+Answer: There are multiple ways to mitigate this problem which are as follows
+-->>(1) Since the average packet  response is much slow when the queue size is bigger. Hence if we 
+keep the router buffer size small then the bufferbloat will not happen.
+-->>(2) Instead of keeping single queue for whole router, we can share the buffer for per flow queue
+and this problem will be mitigated. 
+-->>(3) When the buffer is getting filled, based on some threshold limit , if we can throttle the 
+sending traffic, then thsi problem can be avoided. 
+-->>(4) We can drop some packet at early stage of congestion building using Random Early 
+Discard(RED) and thus this problem will never occur. 
+
+
+###################################################################################################
+Question5: Describe how and why your results change when you re-run the emulation.                #
+###################################################################################################
+
+Answer: 
+
+When we rerun the application, the page download timestamp is changing due to 
+1. Since all hosts are having cpu constraint, the processes like  iperf,ping and webserser get 
+scheduled at different order at different run hence changes in the values are observed.  
+2. Unequal sleep duration between page downloads.
+3. Websever response time is not same at all time. 
+4. All events do not happen at exactly the same time.
+5. Virtual Machine does not run the code at same speed every time. There is always some difference. 
+hence some minor changes can be observed.
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
