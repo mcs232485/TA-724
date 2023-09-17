@@ -1,2 +1,2 @@
-Average: 0.560100
-Standard Deviation: 0.346879
+Average: 0.508667
+Standard Deviation: 0.237257
