@@ -13,7 +13,7 @@ delay=1
 iperf_port=5001
 
 modprobe tcp_probe
-modprobe sch_netem
+# modprobe sch_netem
 # make sure we don't use a cached cwnd
 sysctl -w net.ipv4.tcp_no_metrics_save=1
 for qsize in 20 100; do
